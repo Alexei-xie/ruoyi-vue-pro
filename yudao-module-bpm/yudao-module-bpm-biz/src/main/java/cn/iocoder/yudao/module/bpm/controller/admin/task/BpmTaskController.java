@@ -17,8 +17,6 @@ import cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
 import org.flowable.bpmn.model.UserTask;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.runtime.ProcessInstance;
@@ -28,6 +26,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -93,7 +93,7 @@ public class BpmTaskController {
     @GetMapping("manager-page")
     @Operation(summary = "获取全部任务的分页", description = "用于【流程任务】菜单")
     @PreAuthorize("@ss.hasPermission('bpm:task:mananger-query')")
-    public CommonResult<PageResult<BpmTaskRespVO>> getDoneTaskPage(@Valid BpmTaskPageReqVO pageVO) {
+    public CommonResult<PageResult<BpmTaskRespVO>> getTaskManagerPage(@Valid BpmTaskPageReqVO pageVO) {
         PageResult<HistoricTaskInstance> pageResult = taskService.getTaskPage(getLoginUserId(), pageVO);
         if (CollUtil.isEmpty(pageResult.getList())) {
             return success(PageResult.empty());

@@ -15,12 +15,12 @@ import org.flowable.task.api.Task;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
 
 /**
- * 监听 {@link org.flowable.task.api.Task} 的开始与完成
+ * 监听 {@link Task} 的开始与完成
  *
  * @author jason
  */

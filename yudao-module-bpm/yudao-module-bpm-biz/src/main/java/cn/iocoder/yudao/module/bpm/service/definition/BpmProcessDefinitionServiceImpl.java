@@ -5,14 +5,13 @@ import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 import cn.iocoder.yudao.framework.common.util.object.PageUtils;
-import cn.iocoder.yudao.framework.tenant.core.context.TenantContextHolder;
 import cn.iocoder.yudao.module.bpm.controller.admin.definition.vo.process.BpmProcessDefinitionPageReqVO;
 import cn.iocoder.yudao.module.bpm.dal.dataobject.definition.BpmFormDO;
 import cn.iocoder.yudao.module.bpm.dal.dataobject.definition.BpmProcessDefinitionInfoDO;
 import cn.iocoder.yudao.module.bpm.dal.mysql.definition.BpmProcessDefinitionInfoMapper;
 import cn.iocoder.yudao.module.bpm.framework.flowable.core.enums.BpmnModelConstants;
+import cn.iocoder.yudao.module.bpm.framework.flowable.core.util.FlowableUtils;
 import cn.iocoder.yudao.module.bpm.service.definition.dto.BpmModelMetaInfoRespDTO;
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.common.engine.impl.db.SuspensionState;
@@ -24,6 +23,7 @@ import org.flowable.engine.repository.ProcessDefinitionQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
@@ -109,7 +109,7 @@ public class BpmProcessDefinitionServiceImpl implements BpmProcessDefinitionServ
         Deployment deploy = repositoryService.createDeployment()
                 .key(model.getKey()).name(model.getName()).category(model.getCategory())
                 .addBytes(model.getKey() + BpmnModelConstants.BPMN_FILE_SUFFIX, bpmnBytes)
-                .tenantId(TenantContextHolder.getTenantIdStr())
+                .tenantId(FlowableUtils.getTenantId())
                 .disableSchemaValidation() // 禁用 XML Schema 验证，因为有自定义的属性
                 .deploy();
 
@@ -195,7 +195,7 @@ public class BpmProcessDefinitionServiceImpl implements BpmProcessDefinitionServ
             query.active();
         }
         // 执行查询
-        query.processDefinitionTenantId(TenantContextHolder.getTenantIdStr());
+        query.processDefinitionTenantId(FlowableUtils.getTenantId());
         return query.list();
     }
 

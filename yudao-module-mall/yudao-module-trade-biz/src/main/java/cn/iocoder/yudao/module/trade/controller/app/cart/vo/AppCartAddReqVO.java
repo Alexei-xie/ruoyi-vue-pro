@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.trade.controller.app.cart.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import javax.validation.constraints.Min;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
